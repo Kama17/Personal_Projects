@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block main%}
+<p>Some conten of about page</p>
+<form action = "/about" method = "POST">
+    {{ form.csrf_token}}
+    {{form.title}}
+    {{form.submit}}
+</form>
+{% if title%}
+    <h1>{{title}}</h1>
+{%endif%}
+{%endblock main%}
+
+

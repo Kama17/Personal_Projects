@@ -10,9 +10,6 @@ metadata = MetaData(db.engine)
 Base = declarative_base()
 
 
-
-
-
 class WIP(db.Model):
 	__tablename__ = "WIP"
 
@@ -26,9 +23,6 @@ class WIP(db.Model):
 	DEPARTMENT = db.Column(db.String, nullable = False)
 	OPERATION_DESCRIPTION = db.Column(db.String, nullable = False)
 	PARTS_PER_HOUR = db.Column(db.Integer, nullable = False)
-
-	# routings_id = db.Column(db.Integer, ForeignKey("WIP_ROUTINGS.id"))
-	# wip_records = db.relationship("WIP")
 
 	parent_id = db.Column(db.Integer, db.ForeignKey("WIP_ROUTINGS.id"))
 	parent = db.relationship("wipRoutings", backref=backref("WIP", uselist=False))
@@ -115,7 +109,6 @@ class wipCompletion(db.Model):
 	
 
 	def insertToWIPcompletion(self, job_rec_book_out,job_out_qty, time):
-		#job_details,job_qty,job_routing
 
 		insert = wipCompletion(WEEK_NUMBER = job_rec_book_out.WEEK_NUMBER, WIP_ENTITY_NAME = job_rec_book_out.WIP_ENTITY_NAME
 			, PART_NUMBER = job_rec_book_out.PART_NUMBER, OPERATION_DESCRIPTION = job_rec_book_out.OPERATION_DESCRIPTION,
@@ -125,7 +118,6 @@ class wipCompletion(db.Model):
 		db.session.commit()
 
 
-# relation to WIP to use all rowas rather then weekly supply sheet
 
 def tableCreate(file, file_name, week, new_plan):
 

@@ -244,13 +244,11 @@ def booking():
 
 @app.route('/<action>/bookout', methods = ['GET', 'POST'])
 def bookout(action):
-	#if incorrect scaned
-#try:
+	
 	in_progress = wipRoutings.query.filter_by(STATUS = 'In Progress').distinct().subquery()
 
 	get_wip = wipRoutings.query.filter_by(WIP_ENTITY_NAME = in_progress.c.WIP_ENTITY_NAME).all()
-	# for i in get_wip:
-	# 	print(i.WIP_ENTITY_NAME, i.OPERATION_DESCRIPTION, i.STATUS)
+
 
 	a= set([i.WIP_ENTITY_NAME for i in get_wip])
 	c = [[w for w in get_wip if w.WIP_ENTITY_NAME == i] for  i in a]
@@ -335,16 +333,14 @@ def bookout(action):
 				i.ADDITIONAL_QUANTITY = additional[0].ADDITIONAL_QUANTITY -  sum_scrap_total
 
 		db.session.commit()
-		#wipCompletion().insertToWIPcompletion(job_rec_book_out,job_out_qty,datetime.now())
+
 
 		
 
 		render_template('index.html', update_wip = c)
 		
 	return redirect('/index')
-#except:
 
-	#return redirect('/index')
 @app.route('/<action>/submit', methods = ['POST','GET'])
 def submit(action):
 
@@ -420,12 +416,12 @@ def trans():
  
 
 if __name__ == '__main__':
-	#print('Application running...')
-	#print('DO NOT CLOSE THIS WINDOW.')
-	#print('Close this window after closing the browser.')
-	#print('If browser do not open copy and past this URL: http://127.0.0.1:5000')
-	#webbrowser.open('http://127.0.0.1:5000', new = 2)
+	print('Application running...')
+	print('DO NOT CLOSE THIS WINDOW.')
+	print('Close this window after closing the browser.')
+	print('If browser do not open copy and past this URL: http://127.0.0.1:5000')
+	webbrowser.open('http://127.0.0.1:5000', new = 2)
 	db.create_all()
-	#serve(app, port = 5000)
-	app.run(debug = True,threaded=True)
+	serve(app, port = 5000)
+	#app.run(debug = True,threaded=True)
 	

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title>Transaction Table</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css" rel="stylesheet">
+  <!--link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.0/css/jquery.dataTables.min.css"-->
+
+</head>
+
+<body>
+
+
+		{% block navbar %}	
+		{% include "navbar.html" %}
+		{% endblock %}
+      <h5 class="float-end m-2"> {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      {% for message in messages %}
+         {{ message }}
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+      </h5>
+   <form action="{{url_for('export')}}">
+    <button type="submit" class="btn btn-outline-success float-end m-2">Exprot Table</button>
+    </form>
+
+    <labe class="fw-bold">Search:</label>
+		<input class = "fw-bold m-2 w-auton border-dark rounded text-center" type="search" id="myInput" onkeyup="myFunction()" placeholder=""><br>
+    <p class="fst-italic fw-normal">Search by: week | job | part | start date | operator</p>
+
+
+ 
+<div class="input-group p-2">
+  <span class="input-group-text fw-bold">Jobs</span>
+  <input id = "jobcount" type="text" aria-label="First name" class="form-control text-center fw-bold">
+  <span class="input-group-text fw-bold">Quantity</span>
+  <input id = "totalquantity" type="text" aria-label="Last name" class="form-control text-center fw-bold">
+  <span class="input-group-text fw-bold">Complete</span>
+  <input id = "jobcomplete" type="text" aria-label="Last name" class="form-control text-center fw-bold">
+  <span class="input-group-text fw-bold">Downtime</span>
+  <input id = "downtime" type="text"  step="any" aria-label="Last name" class="form-control text-center fw-bold">
+  <span class="input-group-text fw-bold">Scrap</span>
+  <input id = "scrap" type="text"  step="any" aria-label="Last name" class="form-control text-center fw-bold">
+  <span class="input-group-text fw-bold">Performance %</span>
+  <input id = "performance" type="text"  step="any" aria-label="Last name" class="form-control text-center fw-bold">
+  <span class="input-group-text fw-bold">Quality %</span>
+  <input id = "quality" type="text"  step="any" aria-label="Last name" class="form-control text-center fw-bold">
+  <span class="input-group-text fw-bold">Availability %</span>
+  <input id = "availability" type="text"  step="any" aria-label="Last name" class="form-control text-center fw-bold">
+  <span class="input-group-text fw-bold">OEE %</span>
+  <input id = "oee" type="text"  step="any" aria-label="Last name" class="form-control text-center fw-bold">
+</div>
+		{% block content %}	
+		{% include "transactiontable.html" %}
+		{% endblock %}
+
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.16.0/bootstrap-table.min.js></script>
+
+<script>
+$(document).ready( function () {
+    $('#myTable').DataTable();
+} );
+
+
+function myFunction(input_search) {
+  var src, input, filter, table, tr, td, i, txtValue;
+  let jobcount = 0
+  let totalquantity = 0
+  let jobcomplete = 0
+  let totaldowntime = 0
+  let totalscrap = 0
+  let totalperformance = 0
+  let totalquality = 0
+  let totalavailability = 0
+  let totaloee = 0
+  input_search = document.getElementById("myInput");
+  filter = input_search.value.toUpperCase().trim().split(' ');
+  table = document.getElementById("myTable");
+  for (j = 0; j < filter.length; j++) {
+    tr = table.getElementsByTagName("tr");
+    src = filter[j].trim();
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[1];
+      td2 = tr[i].getElementsByTagName("td")[2];
+      td3 = tr[i].getElementsByTagName("td")[9];
+      td4 = tr[i].getElementsByTagName("td")[6];
+      td5 = tr[i].getElementsByTagName("td")[1];
+      if (src!='' && td && td2 && td3 && td5) {
+        txtValue = td.textContent || td.innerText;
+        txtValue2 = td2.textContent || td2.innerText;
+        txtValue3 = td3.textContent || td3.innerText;
+        txtValue4 = td4.textContent || td4.innerText;
+        txtValue5 = td5.textContent || td5.innerText;
+        if (txtValue.toUpperCase().indexOf(src) > -1 || txtValue2.toUpperCase().indexOf(src) > -1 || txtValue3.toUpperCase().indexOf(src) > -1 || txtValue4.toUpperCase().indexOf(src) > -1 || txtValue5.toUpperCase().indexOf(src) > -1)  {
+          tr[i].style.display = "";
+
+          jobcount += 1
+          totalquantity+=Number(table.rows[i].cells[4].innerText)
+          jobcomplete+=Number(table.rows[i].cells[5].innerText)
+          totaldowntime+=Number(table.rows[i].cells[11].innerText)
+          totalscrap+=Number(table.rows[i].cells[13].innerText)
+          totalperformance += Number(table.rows[i].cells[15].innerText)
+          totalquality += Number(table.rows[i].cells[16].innerText)
+          totalavailability += Number(table.rows[i].cells[17].innerText)
+          totaloee += Number(table.rows[i].cells[18].innerText)
+        } else {
+          tr[i].style.display = "none";
+        }
+          const jobCount = document.getElementById('jobcount')
+          const totalQty = document.getElementById('totalquantity')
+          const totalComplete = document.getElementById('jobcomplete')
+          const downtime = document.getElementById('downtime')
+          const scrap = document.getElementById('scrap')
+          const performance = document.getElementById('performance')
+          const quality = document.getElementById('quality')
+          const availability = document.getElementById('availability')
+          const oee = document.getElementById('oee')
+          totalQty.value= totalquantity
+          jobCount.value = jobcount
+          totalComplete.value = jobcomplete
+          downtime.value = totaldowntime
+          scrap.value = totalscrap
+          performance.value = (totalperformance / jobcount).toFixed(2)
+          quality.value = (totalquality / jobcount).toFixed(2)
+          availability.value = (totalavailability / jobcount).toFixed(2)
+          oee.value = (((totalperformance / jobcount)/100) * ((totalquality / jobcount)/100) * ((totalavailability / jobcount)/100)*100).toFixed(2)
+
+         
+      } 
+       
+    }
+
+  }
+   
+}
+
+
+function Filter(search) {
+  // Declare variables
+  var search, input, filter, table, tr, td, i, txtValue;
+  filter = search;
+  let jobcount = 0
+  let totalquantity = 0
+  let jobcomplete = 0
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[7];
+    
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+        jobcount += 1
+        totalquantity+=Number(table.rows[i].cells[4].innerText)
+        jobcomplete+=Number(table.rows[i].cells[5].innerText)
+   
+
+
+      } else {
+        tr[i].style.display = "none"
+           
+
+      }
+    }
+  }
+   const jobCount = document.getElementById('jobcount')
+   const totalQty = document.getElementById('totalquantity')
+   const totalCommlete = document.getElementById('jobcomplete')
+   totalQty.value= totalquantity
+   jobCount.value = jobcount
+   totalCommlete.value = jobcomplete
+   document.getElementById('complete').value = ((jobcomplete/totalquantity) *100).toFixed(2) + " %"
+}
+</script>
+<!--script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js"></script-->
+</html>

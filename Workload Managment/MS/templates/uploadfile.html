@@ -1,0 +1,19 @@
+<form action="{{url_for('loadweek')}}">
+		    		<div class="dropdown">
+				  		<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+				    		Weekly Supply
+				  		</button>
+					  	<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+					  			{%for week in weeks%}
+					    	<li class = "m-2"><input class="btn-dark rounded border border-dark" type="submit" name="no1" value="{{week}}">
+					    	</li>
+								{%endfor%}
+					  </ul>
+					</div>
+				</form>
+
+	    		<form  action="{{url_for('bend')}}" method = 'post' enctype="multipart/form-data">
+	    			<label for="getFile"></label>
+	    			<input name='plan' type="file"/>
+	    			<button type="submit">Submit</button>
+	    		</form>

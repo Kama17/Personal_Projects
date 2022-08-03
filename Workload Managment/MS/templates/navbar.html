@@ -1,0 +1,66 @@
+<div class="collapse" id="navbarToggleExternalContent">
+	
+		<div class="justify-content bg-dark p-4">
+		    <h2 class="text-white text-center h4">Metal Shop</h2>
+
+<!--
+		    <form class="m-2" action="{{url_for('bend')}}">
+		    <div class="btn-group">
+			    <button type="submit" class="btn btn-danger rounded m-2">Open Plan</button>
+			</form>
+
+	
+				
+					<form class="float-end" action="{{url_for('trans')}}">
+			    		<button type="submit" class="btn btn-info rounded m-2">Transactions</button>
+			    	</form>
+			</div>
+-->
+	</div>
+	
+
+	</div>
+		<nav class="navbar navbar-dark bg-dark navbar-toggler justify-content">
+
+	  		<div class="position-relative container-fluid text-white">
+	  	
+	    	
+			<div class="btn-group" >
+	    		<button class="navbar-toggler navbar-toggler-icon me-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+	    		</button>
+	    			<form  action="{{url_for('index')}}">
+	    			<button type="submit" class="btn btn-success me-3">Booking</button>
+	    		</form>
+
+
+
+	    		<form  action="{{url_for('login')}}">
+					<button type="submit" class="btn btn-primary">Login</button>
+				</form>
+	  		</div>  		
+
+				<div class="btn-group ">
+					 <form class="m-2" action="{{url_for('bend')}}">
+					    <div class="btn-group">
+						    <button type="submit" class="btn btn-danger rounded mt-4 me-2">Open Current Plan</button>
+						</form>
+
+				<!--
+					<form class="float-end" action="{{url_for('trans')}}">
+			    		<button type="submit" class="btn btn-info rounded m-2">Transactions</button>
+			    	</form>
+			    	-->
+	    		<form class="" action="{{url_for('bend')}}" method = 'post' enctype="multipart/form-data">
+	    			<label for="getFile"></label><br>
+	    			<input class="btn border text-white"   name='plan' type="file" required="required" />
+	    			<button class="btn btn-primary  text-white" type="submit">Submit</button>
+	    		</form>
+				
+	    		</div>
+
+	    		</div>
+
+	  		</div>
+
+		</nav>
+

@@ -1,0 +1,97 @@
+<table class="table table-dark table-hover text-center" >
+	  		 <thead>
+
+	  		 	<tr>
+	  		 	<th style="width:5%">#</th>
+	  		 	<th style="width:8%">WEEK</th>
+	  		 	<th style="width:11%">JOB NUMBER</th>
+	  		 	<th style="width:13%">PART NUMBER</th>
+	  		 	<th style="width:39%">DESCRIPTION</th>
+	  		 	<th style="width:10%">QUANTITY</th>
+	  		 	<th style="width:10%">OP NAME</th>
+
+	  			</tr>
+	  		 </thead>
+
+	  	<tbody>
+</table>
+
+<div class="" style = "overflow-y:scroll;height:365px">
+
+<table>
+  		
+		{% for wip in update_wip %}
+		
+	  	<table  class=" table table-dark table-hover text-center mt-1"  style = "margin: 0rem;">
+		  	<tbody >  		 	
+				<td style="width:5%"><a class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapse{{wip[0].WIP_ENTITY_NAME}}" role="button" aria-expanded="false" aria-controls="multiCollapse{{wip[0].WIP_ENTITY_NAME}}">+</a></td>
+				
+					
+					<td style="width:8%"  >{{wip[0].WEEK_NUMBER}}</td>
+					<td style="width:13%" >{{wip[0].WIP_ENTITY_NAME}}</td>
+					<td style="width:13%" >{{wip[0].PART_NUMBER}}</td>
+					<td style="width:43%" >{{wip[0].PART_DESCRIPTION}}</td>
+					<td style="width:10%" >{{wip[0].QUANTITY}}</td>
+					{%for name in wip%}
+						{%if name.STATUS == "In Progress"%}
+							<td style="width:10%" >{{name.OPERATOR_NAME}}</td>
+
+					{%endif%}
+					{%endfor%}
+					
+			
+				
+			 </tbody>
+		</table>
+		  	 
+		 
+		<div class="collapse text-center container" id="multiCollapse{{wip[0].WIP_ENTITY_NAME}}">
+			
+		  	<table class ="table mt-3 w-25 row"> 	
+		  		
+				<tr class = "border-white">	
+								
+						{%for item in wip%}
+						{% if item.STATUS == 'Complete'  %}
+						<td class ="fw-bold col">{{item.OPERATION_DESCRIPTION}}<hr><h6 class="p-1 fw-bold bg-success bg-gradient rounded">{{item.STATUS}}</h6>
+							<div id="list-example" class="list-group mt-1">
+							  <a class="list-group-item list-group-item-action" href="#list-item-1">{{item.STATUS}}<br><span class="badge badge-secondary text-dark">{{item.COMPLETE}}</span></a>
+							  <a class="list-group-item list-group-item-action" href="#list-item-2">Scrap<br><span class="badge badge-secondary text-dark">{{item.SCRAP_QUANTITY}} </span></a>
+							  <a class="list-group-item list-group-item-action" href="#list-item-3">Addition<br><span class="badge badge-secondary text-dark">{{item.ADDITIONAL_QUANTITY}}</span></a>
+							</div>
+						</td>
+
+						{%elif item.STATUS == 'In Progress' %}
+
+						<td class = "fw-bold col">{{item.OPERATION_DESCRIPTION}}<hr>{{item.OPERATOR_NAME}}<hr><h6 class="p-1 fw-bold bg-warning bg-gradient rounded">{{item.STATUS}}</h6>
+							<div id="list-example" class="list-group mt-1">
+							  <a class="list-group-item list-group-item-action" href="#list-item-1">Complete<br><span class="badge badge-secondary text-dark">{{item.COMPLETE}}</span></a>
+							  <a class="list-group-item list-group-item-action" href="#list-item-2">Scrap<br><span class="badge badge-secondary text-dark">{{item.SCRAP_QUANTITY}}<br></span></a>
+							  <a class="list-group-item list-group-item-action" href="#list-item-3">Addition<br><span class="badge badge-secondary text-dark">{{item.ADDITIONAL_QUANTITY}}</span></a>
+							</div>
+							
+							{{item.START_DATE.strftime("%H:%M:%S")}}
+
+						</td>
+						</td>
+						 {% else %}
+
+						 <td class = "fw-bold col">{{item.OPERATION_DESCRIPTION}}<hr><h6 class="p-1 fw-bold bg-danger bg-gradient rounded">N/Complete</h6>
+							<div id="list-example" class="list-group mt-1">
+							  <a class="list-group-item list-group-item-action" href="#list-item-1">Complete<br><span class="badge badge-secondary text-dark">{{item.COMPLETE}} </span></a>
+							  <a class="list-group-item list-group-item-action" href="#list-item-2">Scrap<br><span class="badge badge-secondary text-dark">{{item.SCRAP_QUANTITY}}</span></a>
+							  <a class="list-group-item list-group-item-action" href="#list-item-3">Addition<br><span class="badge badge-secondary text-dark">{{item.ADDITIONAL_QUANTITY}}</span></a>
+							</div>
+						</td>
+						{%endif%}
+						{%endfor%}
+				</tr>
+
+			</table>
+
+		</div>
+			
+{%endfor%}	
+
+</div>
+		

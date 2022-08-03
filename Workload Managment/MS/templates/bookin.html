@@ -1,0 +1,121 @@
+	<div class="mt-2 container border border-4 rounded-2 text-center bg-success bg-opacity-25">
+		<div class="row p-2">
+			<div class="col border">
+				<h2 class="text-center">BOOK IN</h2>
+
+				<form action="{{url_for('booking')}}">
+					<div class="mt-2 input-group mb-3">
+						<span class="input-group-text" id="basic-addon1">Scan/Job</span>
+
+					 	<input  name="job_no" type="text" class="form-control text-center" aria-label="scanJob" aria-describedby="basic-addon1" value = "" required="required" >
+						 <button button type="submit" class="btn btn-success">Search</button>
+					
+					</div>
+				</form>
+
+				<form action="{{url_for('submit', action = action)}}" method="">
+					<div class="mt-2 input-group mb-3">
+						<span class="input-group-text" id="basic-addon1">Full Name</span>
+
+					 	
+							<select class ="rounded" name="name" id= "name" required="required" >
+								<option value=""></option>
+								{% for name in op_names %}
+								
+							    <option value="{{name.FIRST_NAME + ' ' + name.LAST_NAME}}">{{name.FIRST_NAME + " " + name.LAST_NAME}}</option>
+							    {% endfor %}
+							 </select>
+					
+					</div>
+
+					<span class="input-group-text" id="basic-addon1">Job</span>
+					 	<input disabled="" name="" type="text" class="bg-white form-control text-center" aria-label="scanJob" aria-describedby="basic-addon1" value = "{{data1}}" required="required">
+					 	<input  name="no" type="hidden" class="bg-white form-control text-center" aria-label="scanJob" aria-describedby="basic-addon1" value = "{{data1}}" required="required">
+
+
+				<div class="mt-2 input-group mb-3">
+			    <div class="input-group-prepend">
+
+			    <span class="input-group-text " id="">Part Number</span>
+			  	</div>
+
+			  		<input disabled name = "" type="text" class="bg-white form-control text-center" value="{{data2}}">
+			  		<input  name = "no" type="hidden" class="bg-white form-control text-center" value="{{data2}}"> 
+
+			  		<span class="input-group-text " id="">Quantity</span>
+			  		<input disabled  name = "" type="text" class="bg-white form-control text-center" value="{{data4}}">
+			  		<input  name = "no" type="hidden" class="bg-white form-control text-center" value="{{data4}}">
+
+			  		<span class="input-group-text " id="">Week</span>
+			  		<input disabled name = "" type="text" class="bg-white form-control text-center" value="{{data0}}">
+			  		<input  name = "no" type="hidden" class="bg-white form-control text-center" value="{{data0}}">
+				</div>
+
+				<div class="input-group mb-3">
+				    <span class="input-group-text">Description</span>
+				    <textarea disabled name = "" class="bg-white form-control text-center" aria-label="With textarea">{{data3}}</textarea>
+
+				</div>
+
+				<h4 class = "text-center">START</h4>
+				<hr>
+				
+				{%if request.method == 'GET' %}
+
+					
+					{% for rec in job_rec %}
+						{% if action == 'update' %}
+
+						{%  if rec.COMPLETE == data4 %}
+
+					
+							 <div class="form-check form-check-inline">
+								<label class="form-check-label" for="" >{{rec.OPERATION_DESCRIPTION}}</label>
+							    <input name = "check_box" class="form-check-input" type="checkbox" id="inlineCheckbox1" value="{{rec.OPERATION_DESCRIPTION}}" disabled="{{false}}" checked="{{false}}">
+							    <br>
+							    <label class="form-check-label" for="">{{rec.QUANTITY}}</label>
+							    <input type="hidden" name="no_1" value = "{{rec.OPERATION_DESCRIPTION}}">
+							    <input type="hidden" name="no_2" value = "{{rec.QUANTITY}}">
+							    <input type="hidden" name="part_per_hour" value = "{{rec.PARTS_PER_HOUR}}">
+						
+							</div>
+
+						{%else%}
+
+							<div class="form-check form-check-inline">
+								<label class="form-check-label fw-bold" for="" >{{rec.OPERATION_DESCRIPTION}}</label>
+							    <input name = "check_box" class="form-check-input" type="checkbox" id="inlineCheckbox1" value="{{rec.OPERATION_DESCRIPTION}}">
+							    <br>
+							    <label class="form-check-label" for="">{{data4 - rec.COMPLETE}} of {{data4}}</label>					    
+							    <input type="hidden" name="no_1" value = "{{rec.OPERATION_DESCRIPTION}}">
+							    <input type="hidden" name="no_2" value = "{{rec.COMPLETE}}">
+							    <input type="hidden" name="part_per_hour" value = "{{rec.PARTS_PER_HOUR}}">
+						
+							</div>
+
+						{%endif%}
+
+
+				{%elif action == 'insert'%}
+							<div class="form-check form-check-inline">
+								<label class="form-check-label fw-bold" for="" >{{rec.DEPARTMENT}}</label>
+							    <input name = "check_box" class="form-check-input" type="checkbox" id="inlineCheckbox1" value="{{rec.DEPARTMENT}}" >
+							    <br>
+							    <label class="form-check-label" for="">0 of {{rec.QUANTITY}}</label>
+							    <input type="hidden" name="no_1" value = "{{rec.DEPARTMENT}}">
+							    <input type="hidden" name="no_2" value = "{{rec.QUANTITY}}">
+							    <input type="hidden" name="part_per_hour" value = "{{rec.PARTS_PER_HOUR}}">
+							</div>
+
+				{%endif%}
+
+				{% endfor %}
+
+				{%endif%}	
+	
+	</div>
+
+	<div class="mt-3 d-grid">
+		<button class="btn btn-primary" type="submit">Start</button>
+	</div> 
+	</form>

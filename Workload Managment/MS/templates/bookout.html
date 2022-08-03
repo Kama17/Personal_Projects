@@ -1,0 +1,123 @@
+	<div class="mt-2 container border border-4 rounded-2 bg-warning bg-opacity-25">
+		<div class="row p-2">
+			<div class="col border">
+				<h2 class="text-center">BOOK OUT</h2>
+
+				<form action="{{url_for('bookout',action = 'search')}}" method="post">
+					<div class="mt-2 input-group mb-3">
+
+						<span class="input-group-text" id="basic-addon1">Scan/Job</span>
+					 	<input name="job_no_book_out" type="text" class="form-control text-center" aria-label="scanJob" aria-describedby="basic-addon1" value = "" required="required" >
+						 <button button type="submit" class="btn btn-success">Search</button>
+
+					</div>
+				</form>
+				
+				{%if request.method == 'POST' %}
+				<form action="{{url_for('bookout', action = 'bookin_out')}}" method="get">
+
+
+					<span class="input-group-text" id="basic-addon1">Full Name</span>
+					 	<input disabled  name="" type="text" class="bg-white form-control text-center" aria-label="" aria-describedby="basic-addon1" value = "{{job_rec_book_out.OPERATOR_NAME}}"required="required">
+					 	<input  name="name" type="hidden" class="bg-white form-control text-center" aria-label="" aria-describedby="basic-addon1" value = "{{job_rec_book_out.OPERATOR_NAME}}">
+
+					<span class="input-group-text" id="basic-addon1">Job</span>
+					 	<input disabled name="" type="text" class="bg-white form-control text-center" aria-label="scanJob" aria-describedby="basic-addon1" value = "{{job_rec_book_out.WIP_ENTITY_NAME}}"required="required">
+					 	<input  name="job_number" type="hidden" class="bg-white form-control text-center" value = "{{job_rec_book_out.WIP_ENTITY_NAME}}">
+				
+
+				<div class="mt-2 input-group mb-3">
+			    <div class="input-group-prepend">
+
+			    <span  class="input-group-text " id="">Part Number</span>
+			  	</div>
+
+			  		<input disabled name = "" type="text" class="bg-white form-control text-center" value="{{job_rec_book_out.PART_NUMBER}}">
+			  		<input  name = "no" type="hidden" class="bg-white form-control text-center" value="{{job_rec_book_out.PART_NUMBER}}">
+
+			  		<span class="input-group-text " id="">Quantity</span>
+			  		<input disabled name = "" type="text" class="bg-white form-control text-center" value="{{job_rec_book_out.QUANTITY}}">
+			  		<input  name = "no" type="hidden" class="bg-white form-control text-center" value="{{job_rec_book_out.QUANTITY}}">
+
+			  		<span class="input-group-text " id="">Week</span>
+			  		<input disabled name = "" type="text" class="bg-white form-control text-center" value="{{job_rec_book_out.WEEK_NUMBER}}">
+			  		<input  name = "no" type="hidden" class="bg-white form-control text-center" value="{{job_rec_book_out.WEEK_NUMBER}}">
+
+				</div>
+
+				<div class="input-group mb-3">
+				    <span class="input-group-text">Description</span>
+				    <textarea disabled name = "" class="bg-white form-control text-center" aria-label="With textarea">{{job_rec_book_out.PART_DESCRIPTION}}</textarea>
+				    <input  name = "no" type="hidden" class="bg-white form-control text-center" value="{{job_rec_book_out.PART_DESCRIPTION}}">
+				</div>
+
+				<h4 class = "text-center">COMPLETION</h4>
+				<hr>
+				
+				    								
+								<div class="border border-secondary rounded">
+
+
+										
+									<div class="input-group m-2">
+									<span class="input-group-text btn-outline-dark rounded">ROUTING</span>
+									  <span name="job_bookout_routing" class="input-group-text btn btn-dark text-white me-2 rounded">{{job_rec_book_out.OPERATION_DESCRIPTION}}</span>
+									  <span class="input-group-text btn-outline-dark rounded">COMPLETE</span>
+									  <span class="input-group-text btn btn-success text-dark btn-outline-dark me-2 rounded">{{job_rec_book_out.COMPLETE}}</span>
+									
+									  <span class="input-group-text btn-outline-dark  rounded">AVAILABLE</span>
+									  <span class="input-group-text btn-warning btn-outline-dark text-dark  rounded">{{job_rec_book_out.QUANTITY - job_rec_book_out.COMPLETE}}</span>
+
+							
+									</div>
+									<hr>
+								<div class="input-group m-2">
+									<span class="input-group-text fw-bold btn-outline-dark ms-2 rounded">QUANTITY COMPLETED</span>
+									<input name="job_bookout_qty" type="number" aria-label="Last name" class="text-center ms-1 rounded w-25" required="required" placeholder="Enter quantity" min="0" max="{{job_rec_book_out.QUANTITY - job_rec_book_out.COMPLETE}}">
+
+									{% if 'SAW' in job_rec_book_out.OPERATION_DESCRIPTION.upper() %}
+									<input class = "ms-2 rounded text-center w-25" type="number" name="add_qty" placeholder="Addition" required>
+								{% endif %}
+
+
+								<div class="input-group m-2 border border-dark">
+
+							    <div class="input-group m-2">
+
+								    <select name="downtime_reason" class="form-select w-25 me-2 rounded" required>
+									  <option value="" >Downtime reason</option>
+									  {% for reason in downtime_reason %}
+									  <option value="{{reason.REASON}}">{{reason.REASON}}</option>
+									  {%endfor%}
+
+									</select>
+									<input required class=" input-group-text bg-white w-25 me-5 rounded" type="number" name="downtime" placeholder= "Downtime" min="0" max="9999">
+								
+									
+									
+								</div>
+
+							    <input type="hidden" style="width:5%" name="no_1" value = "{{job_rec_book_out.QUANTITY- job_rec_book_out.COMPLETE}}">
+							    <input type="hidden" style="width:5%" name="job_bookout_routing" value = "{{job_rec_book_out.OPERATION_DESCRIPTION}}">
+
+							    <div class="input-group m-2">
+
+								   	<select name="scrap_reason" class="form-select w-25 me-2 rounded" required>
+									  <option value="" >Scrap reason</option>
+									  {% for reason in scrap_reason %}
+									  <option value="{{reason.REASON}}">{{reason.REASON}}</option>
+									  {%endfor%}
+
+									</select>
+								<input required class=" input-group-text bg-white w-25 me-5 rounded" type="number" name="scrap_qty" placeholder= "Scrap" min="0" max="9999">
+								</div>
+							    </div>
+							    </div>	
+
+	</div>
+
+	<div class="d-grid mt-3">
+		<button class="btn btn-primary" type="submit">Complete</button>
+	</div> 
+	</form>
+	{%endif%}	

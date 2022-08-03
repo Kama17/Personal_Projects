@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Log In | Metal Shop</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel="stylesheet" href="static/style.css">
+
+</head>
+<body>
+
+<!-- partial:index.partial.html -->
+<div style="display: flex;">
+
+
+<div id="login-form-wrap">
+  <h2>WIP Login</h2>
+  <form id="login-form" action="{{url_for('index')}}">
+
+    <p>
+    <input type="submit" value="Login">
+    </p>
+  </form>
+
+
+  <div id="create-account-wrap">
+    <p>Operator login<p>
+  </div><!--create-account-wrap-->
+  </div>
+
+<div id="login-form-wrap">
+  <h2>Admin</h2>
+
+  <form id="login-form" name="login" action = "{{url_for('enter')}}" method="post">
+
+  
+    <p>
+    <input type="submit" id="login" value="Login">
+    </p>
+  </form>
+  <div id="create-account-wrap">
+    <p>Managment login<p>
+  </div>
+  <!--form  action="{{url_for('enter')}}">
+   <input class="btn btn-primary" type="submit" id="" name="" value="Manager"></input>
+   </form-->
+
+
+</div>
+
+
+
+</div>
+</body>
+</html>

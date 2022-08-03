@@ -1,0 +1,84 @@
+
+
+<table id="myTable" data-toggle="table" class="table table-dark table-hover fw-normal">
+
+	  		 <thead>
+
+	  		 	<tr class="text-center">
+	  		 	<th class="text-center" data-sortable="true">WEEK</th>
+	  		 	<th class="text-center" data-sortable="true">JOB NUMBER</th>
+	  		 	<th class="text-center" data-sortable="true">PART NUMBER</th>
+	  		 	<th class="text-center" data-sortable="true">ROUTING</th>
+	  		 	<th class="text-center" data-sortable="true">QUANTITY</th>
+	  		 	<th class="text-center" data-sortable="true">COMPLETE</th>
+	  		 	<th class="text-center"data-sortable="true">START DATE</th>
+	  		 	<th class="text-center"data-sortable="true">COMPLATE DATE</th>
+	  		 	<th class="text-center"data-sortable="true">TOTAL TIME</th>
+	  		 	<th class="text-center"data-sortable="true">PART PER HOUR</th>
+	  		 	<th class="text-center"data-sortable="true">OPERATOR</th>
+	  		 	<th class="text-center"data-sortable="true">DOWNTIME</th>
+	  		 	<th class="text-center"data-sortable="true">DOWNTIME REASON</th>
+	  		 	<th class="text-center"data-sortable="true">SCRAP</th>
+	  		 	<th class="text-center"data-sortable="true">SCRAP REASON</th>
+	  		 	<th class="text-center"data-sortable="true">PERFORMANCE %</th>
+	  		 	<th class="text-center"data-sortable="true">QUALITY %</th>
+	  		 	<th class="text-center"data-sortable="true">AVAILABILITY %</th>
+	  		 	<th class="text-center"data-sortable="true">OEE %</th>
+	  		
+	  		
+
+	  		 	</tr>
+
+	  		 </thead>
+
+
+	  		 <tbody>
+
+	  		 	<tr>
+	  		 	{%for i in wip%}
+	  		 
+	  		 	<td class="text-center">{{i.WEEK_NUMBER}}</td>
+	  		 	<td class="text-center">{{i.WIP_ENTITY_NAME}}</td>
+	  		 	<td class="text-center">{{i.PART_NUMBER}}</td>
+	  		 	<td class="text-center">{{i.OPERATION_DESCRIPTION}}</td>
+	  		 	<td class="text-center">{{i.QUANTITY}}</td>
+	  		 	<td class="text-center">{{i.COMPLETE}}</td>
+	  		 	<td class="text-center">{{i.DATE_START.strftime("%d-%m-%y %H:%M")}}</td>
+	  		 	<td class="text-center">{{i.DATE_COMPLETE.strftime("%d-%m-%y %H:%M")}}</td>
+	  		 	{%set time = (i.DATE_COMPLETE - i.DATE_START) %}
+	  		 	<td class="text-center">{{time}}</td>
+	  		 	<td class="text-center">{{i.PARTS_PER_HOUR}}</td>
+	  		 	<td class="text-center">{{i.OPERATOR_NAME}}</td>
+	  		 	<td class="text-center">{{i.DOWNTIME}}</td>
+	  		 	<td class="text-center">{{i.DOWNTIME_REASON}}</td>
+	  		 	<td class="text-center">{{i.SCRAP_QUANTITY}}</td>
+	  		 	<td class="text-center">{{i.SCRAP_REASON}}</td>
+
+	  		 	{% if i.COMPLETE != 0%}
+
+	  		 	{%set perf = (i.COMPLETE / (((i.DATE_COMPLETE - i.DATE_START).total_seconds()/3600) * i.PARTS_PER_HOUR))%}
+	  		 	<td class="text-center">{{(perf*100)|round(2)}}</td>
+	  		 	{%set qual = ((i.COMPLETE - i.SCRAP_QUANTITY) / i.COMPLETE)%}
+	  		 	<td class="text-center">{{ (qual*100)  |round(2)}}</td>
+	  		 	{% set time_h = time.total_seconds()/3600 %}
+	  		 	{%set ava = ((time_h - (i.DOWNTIME/60)) / time_h)%}
+	  		 	<td class="text-center">{{(ava*100) |round(2)}}</td>
+	  		 	<td class="text-center">{{((perf*qual*ava)*100)|round(2)}}</td>
+	  		 	</tr>
+	  		 	{%else%}
+
+	  		 	<td class="text-center">0</td>
+
+	  		 	<td class="text-center">0</td>
+
+	  		 	<td class="text-center">0</td>
+	  		 	<td class="text-center">0</td>
+	  		 	</tr>
+	  		 	
+	  			{%endif%}  	 			 
+	  		 	{%endfor%}
+
+	  		 </tbody>
+	  		 
+		</table>
+

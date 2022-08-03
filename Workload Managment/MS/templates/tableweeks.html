@@ -1,0 +1,117 @@
+
+<div class="input-group me-2 mb-2">
+  <span class="input-group-text ">Total Jobs</span>
+  <input id = "jobcount" type="number" aria-label="First name" class="form-control text-center fw-bold">
+  <span class="input-group-text">Total quantity</span>
+  <input id = "totalquantity" type="number" aria-label="Last name" class="form-control text-center fw-bold">
+  <span class="input-group-text">Total complete</span>
+  <input id = "jobcomplete" type="number" aria-label="Last name" class="form-control text-center fw-bold">
+  <span class="input-group-text">Complete</span>
+  <input id = "complete" type="text"  step="any" aria-label="Last name" class="form-control text-center fw-bold">
+</div>
+
+
+<!--
+<label class="text-center me-2 fw-bold" for="totalquantity">Total quantity</label><input class="text-center rounded" id = "totalquantity"></input>
+
+<div class="input-group mb-3">
+  <span class="input-group-text" id="basic-addon1">Total quantity</span>
+  <input type="text" class="form-control" id = "totalquantity" >
+</div>
+
+<label class="text-center me-2 fw-bold" for="jobcomplete">Total complete</label><input class="text-center rounded" id = "jobcomplete"></input>
+<label class="text-center me-2 fw-bold" for="jobcomplete">Complete</label><input class="text-center rounded" id = "complete"> %</input>
+-->
+
+<div class="btn-group mb-2">
+	<button type="button" class="btn  dropdown-toggle dropdown-toggle-split btn btn-outline-secondary" id="dropdownMenuReference" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent">
+			    <span class="">Routings</span>
+			</button>
+
+				<table class="dropdown-menu" aria-labelledby="btnGroupDrop1" style = "overflow:scroll;overflow-y:scroll;height: 500px;overflow-x:scroll;width: 50px">
+
+				<button type="button" class="btn btn-secondary" onclick="All()">All routings</button>
+				{% for route in dep_routing %}		
+					<tr>
+
+				    	<td ><button type="button" id= "{{route[0]}}" onclick="Filter('{{route[0]}}')" value="{{route[0]}}" class="bg-secondary.bg-gradient dropdown-item text-center fw-bold">{{route[0]}} </button></td>
+
+
+				    	{% endfor %}
+
+		        	</tr>
+	        	</table>
+	        	
+
+</div>
+
+<table id="myTable" data-toggle="table" class="table table-dark table-hover">
+	  		 <thead>
+	  		 	
+	  		 	<tr class="text-center">
+	  		 	<th class="text-center" data-sortable="true">WEEK</th>
+	  		 	<th class="text-center" data-sortable="true">JOB NUMBER</th>
+	  		 	<th class="text-center" data-sortable="true">PART NUMBER</th>
+	  		 	<th class="text-center" data-sortable="true">DESCRIPTION</th>
+	  		 	<th class="text-center" data-sortable="true">QUANTITY</th>
+	  		 	<th class="text-center" data-sortable="true">COMPLETE</th>
+	  		 	<th class="text-center" data-sortable="true">STATUS</th>
+	  		 	<th class="text-center" data-sortable="true">ROUTING</th>
+	  		 	</tr>
+
+	  		 </thead>
+
+
+
+
+	  		 <tbody>
+
+	  		 	<tr>
+	  		 	{%for i in file%}
+
+	  		 	
+	  		 
+	  		 	<td class="text-center">{{i[0].WEEK_NUMBER}}</td>
+	  		 	<td class="text-center">{{i[0].WIP_ENTITY_NAME}}</td>
+	  		 	<td class="text-center">{{i[0].PART_NUMBER}}</td>
+	  		 	<td class="text-center">{{i[0].PART_DESCRIPTION}}</td>
+	  		 	<td class="text-center">{{i[0].QUANTITY}}</td>
+	  		 	
+
+	  		 	{% if i[1] == None %}
+
+	  		 	<td class="text-center">0</td>
+	  		 	<td class="text-center">-</td>
+	  		 	<td class="text-center">{{i[0].ROUTING}}</td>
+
+	  		 	{%else%}
+
+	  		 	
+	  		 
+	  		 	{%if i[0].QUANTITY > i[1].COMPLETE > 0 and i[1].STATUS != 'In Progress'%}
+	  		 	<td class="text-center bg-danger">{{i[1].COMPLETE}}</td>
+	  		 	{%else%}
+	  		 	<td class="text-center">{{i[1].COMPLETE}}</td>
+	  		 	
+	  		 	
+	  		 	{%endif%}
+
+
+	  		 	{% if i[1].STATUS == 'In Progress' %}
+	  		 	<td class="bg-warning text-center" >{{i[1].STATUS}}</td>
+	  		 	{% elif i[1].STATUS == 'Complete'%}
+	  		 	<td class="bg-success text-center" >{{i[1].STATUS}}</td>
+	  		 	{%else%}
+	  		 	<td class="text-center">-</td>
+	  		 	{%endif%}
+	  		 	<td class="text-center">{{i[1].OPERATION_DESCRIPTION}}</td> 		 	
+	  		 	
+
+	  		 	{%endif%}
+	  		 	</tr>
+	  		 	{%endfor%}
+
+	  		 </tbody>
+	  		 
+		</table>
+

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% if request.method == 'POST'%}
+	<title>{{name}} Table</title>
+  {%else%}
+  <title>{{name}} Table</title>
+  {%endif%}
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+	
+	<h1>{{current_week}}</h1>
+
+		{% block navbar %}	
+		{% include "navbar.html" %}
+		{% endblock %}
+
+	<p class="text-center fs-2 bold">{{current_week}}</p>
+		<label class="fw-bold" for="myInput">Search:</label><input class = "fw-bold m-2 w-auton border-dark rounded text-center" type="text" id="myInput" onkeyup="myFunction()" placeholder="">
+       <p class="fst-italic fw-normal">Search by: job | part </p>
+    
+		{% block content %}	
+		{% include "tableweeks.html" %}
+		{% endblock %}
+
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.16.0/bootstrap-table.min.js></script>
+<!--script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js"></script-->
+
+
+<!--script>
+
+
+
+$(document).ready( function () {
+    $('#myTable').DataTable();
+} );
+</script-->
+<script>
+
+function myFunction() {
+  var src, input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase().trim().split(' ');
+  table = document.getElementById("myTable");
+  for (j = 0; j < filter.length; j++) {
+    tr = table.getElementsByTagName("tr");
+    src = filter[j].trim();
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[1];
+      td2 = tr[i].getElementsByTagName("td")[2];
+      if (src!='' && td && td2) {
+        txtValue = td.textContent || td.innerText;
+        txtValue2 = td2.textContent || td2.innerText;
+        if (txtValue.toUpperCase().indexOf(src) > -1 || txtValue2.toUpperCase().indexOf(src) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }       
+    }
+  }
+}
+
+function Filter(search) {
+  // Declare variables
+  var search, input, filter, table, tr, td, i, txtValue;
+  filter = search;
+  let jobcount = 0
+  let totalquantity = 0
+  let jobcomplete = 0
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[7];
+    
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+        jobcount += 1
+        totalquantity+=Number(table.rows[i].cells[4].innerText)
+        jobcomplete+=Number(table.rows[i].cells[5].innerText)
+   
+
+
+      } else {
+        tr[i].style.display = "none"
+           
+
+      }
+    }
+  }
+   const jobCount = document.getElementById('jobcount')
+   const totalQty = document.getElementById('totalquantity')
+   const totalCommlete = document.getElementById('jobcomplete')
+   totalQty.value= totalquantity
+   jobCount.value = jobcount
+   totalCommlete.value = jobcomplete
+   document.getElementById('complete').value = ((jobcomplete/totalquantity) *100).toFixed(3) + " %"
+}
+
+function All() {
+  // Declare variables
+  var input, filter, table, tr, td, i, txtValue;
+
+  let jobcount = 0
+  let totalquantity = 0
+  let jobcomplete = 0
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[7];
+    
+if (td) {
+        jobcount += 1
+        totalquantity += Number(table.rows[i].cells[4].innerText)
+        jobcomplete += Number(table.rows[i].cells[5].innerText)
+        tr[i].style.display = ""
+   
+
+    }}
+
+   const jobCount = document.getElementById('jobcount')
+   const totalQty = document.getElementById('totalquantity')
+   const totalCommlete = document.getElementById('jobcomplete')
+   totalQty.value= totalquantity
+   jobCount.value = jobcount
+   totalCommlete.value = jobcomplete
+   document.getElementById('complete').value = ((jobcomplete/totalquantity)* 100).toFixed(3) + " %"
+}
+
+
+
+</script>
+
+
+</html>
